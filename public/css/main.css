@@ -1,0 +1,400 @@
+/* Reset cơ bản */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Fredoka", sans-serif; /* Font chữ vui nhộn */
+  background: linear-gradient(
+    135deg,
+    #74ebd5 0%,
+    #9face6 100%
+  ); /* Nền Gradient xanh mát */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  color: #333;
+}
+
+/* Khung bảng Menu */
+.game-panel {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  max-width: 90%;
+  text-align: center;
+  border: 4px solid #fff;
+}
+
+/* Header */
+.logo-area h1 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 28px;
+}
+.subtitle {
+  color: #7f8c8d;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+/* Profile Card */
+.profile-card {
+  background: #ecf0f1;
+  border-radius: 15px;
+  padding: 15px;
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 2px dashed #bdc3c7;
+  flex-wrap: wrap;
+}
+.avatar {
+  font-size: 40px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 50%;
+}
+.info {
+  text-align: left;
+  flex-grow: 1;
+}
+.info h3 {
+  margin: 0;
+  color: #2980b9;
+}
+.info p {
+  margin: 5px 0 0;
+  font-size: 13px;
+  color: #666;
+}
+
+/* Ẩn hiện phần tử */
+.hidden {
+  display: none !important;
+}
+
+/* Các nút bấm */
+.btn-primary,
+.btn-secondary,
+.btn-action {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.2s;
+}
+
+.btn-primary {
+  background-color: #e74c3c;
+  color: white;
+  margin-top: 15px;
+  box-shadow: 0 4px #c0392b;
+}
+.btn-secondary {
+  background-color: #3498db;
+  color: white;
+  box-shadow: 0 4px #2980b9;
+}
+.btn-action {
+  background-color: #2ecc71;
+  color: white;
+  margin-top: 10px;
+  box-shadow: 0 4px #27ae60;
+}
+
+.btn-primary:active,
+.btn-secondary:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+/* Hiệu ứng nút Vào Ngay đập thình thịch */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.pulse {
+  animation: pulse 1.5s infinite;
+}
+
+/* Form nhập liệu */
+.grid-2 {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.form-group {
+  flex: 1;
+  text-align: left;
+}
+label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #7f8c8d;
+  margin-left: 5px;
+}
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid #ecf0f1;
+  background: #fff;
+  font-family: inherit;
+}
+/* Style riêng cho nút Đăng xuất */
+.btn-logout {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px; /* Cách nút trên một chút */
+  background-color: #95a5a6; /* Màu xám */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px; /* Chữ nhỏ hơn nút chính một chút */
+  transition: background 0.2s;
+}
+
+.btn-logout:hover {
+  background-color: #7f8c8d; /* Đậm hơn khi di chuột vào */
+}
+
+/* --- GAMEPLAY STYLES --- */
+.hud-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.game-area {
+  position: relative; /* Để đặt nhân vật chạy lung tung bên trong */
+  height: 400px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 3px solid #bdc3c7;
+  border-radius: 10px;
+  overflow: hidden;
+  /* Hình nền lưới để dễ nhìn */
+  background-image: radial-gradient(#bdc3c7 10%, transparent 10%);
+  background-size: 20px 20px;
+}
+
+/* Thực thể trong game (Nhân vật, Quái, Rương) */
+.entity {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  cursor: pointer;
+  transition:
+    top 0.1s linear,
+    left 0.1s linear;
+  z-index: 10;
+  user-select: none;
+}
+.entity:hover {
+  transform: scale(1.1);
+}
+
+/* Bảng câu hỏi (Modal) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100; /* Nằm đè lên tất cả */
+}
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  width: 500px;
+  text-align: center;
+  border: 5px solid #f1c40f;
+}
+.answer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+.btn-answer {
+  padding: 15px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.btn-answer:hover {
+  background: #2980b9;
+}
+/* --- GIAO DIỆN GAME LỚP 1 MỚI --- */
+
+@keyframes jumpRabbit {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-40px) scale(1.1);
+  }
+}
+.jump-win {
+  animation: jumpRabbit 0.5s ease-in-out 3;
+}
+
+/* Nút đáp án khổng lồ */
+.btn-huge {
+  font-size: 80px; /* Chữ siêu to */
+  font-weight: bold;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 8px solid #3498db;
+  color: #e74c3c;
+  cursor: pointer;
+  transition: transform 0.2s;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-huge:hover {
+  transform: scale(1.05);
+}
+/* --- HỆ THỐNG ANIMATION THỎ MỚI (COPY-PASTE) --- */
+
+/* 1. Khung chứa chính (định vị tương đối để các ảnh PNG xếp lên nhau) */
+.rabbit-container {
+  position: relative;
+  width: 80%; /* Chiều rộng giống ảnh cũ */
+  /*border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);*/
+  /* Giữ hiệu ứng floatRabbit mà bạn đã viết trước đây */
+}
+
+/* 2. Ảnh thân thỏ (ảnh nền cố định) */
+.rabbit-body {
+  width: 100%;
+  display: block;
+  border-radius: 20px;
+}
+
+/* 3. Ảnh các loại miệng (Cực kỳ quan trọng) */
+.rabbit-mouth {
+  position: absolute; /* Đặt miệng lên trên thân */
+  left: 51%; /* Căn giữa theo chiều ngang */
+  top: 50%; /* Căn giữa theo chiều dọc (Bạn cần tự chỉnh sửa giá trị này) */
+  transform: translate(-50%, -50%); /* Đưa miệng về tâm */
+  width: 15%; /* Độ to nhỏ của miệng so với thân (Bạn tự chỉnh sửa) */
+  transition: opacity 0.1s; /* Chuyển đổi mượt mà */
+}
+
+/* 4. Lớp CSS để ẩn miệng */
+.hidden-mouth {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* 5. Định nghĩa hoạt họa "FLOAT" (Thỏ bay lơ lửng, đồng nhất lại) */
+@keyframes floatRabbit {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+.floating-rabbit {
+  animation: floatRabbit 3s ease-in-out infinite;
+}
+
+/* 6. Định nghĩa hoạt họa "TALKING" (Mấp máy miệng) */
+/* Cứ 0.5s thì hoán đổi miệng mở/đóng */
+@keyframes talkingRabbit {
+  0%,
+  49%,
+  100% {
+    /* Ẩn miệng mở, hiện miệng đóng */
+  }
+  50%,
+  99% {
+    /* Hiện miệng mở, ẩn miệng đóng */
+  }
+}
+/* Lớp CSS mới này sẽ do JavaScript gọi để bắt đầu nói */
+.talking-rabbit #rabbit-mouth-closed {
+  visibility: visible !important; /* Mở khóa để cho phép hiển thị */
+  animation: nhapNhauDong 0.25s infinite; /* Tốc độ mấp máy 0.25 giây */
+}
+
+.talking-rabbit #rabbit-mouth-open {
+  visibility: visible !important; /* Mở khóa để cho phép hiển thị */
+  animation: nhapNhauMo 0.25s infinite;
+}
+
+/* Hoạt họa cho miệng Đóng: Nửa nhịp đầu Ẩn, nửa nhịp sau Hiện */
+@keyframes nhapNhauDong {
+  0%,
+  49% {
+    opacity: 0;
+  }
+  50%,
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Hoạt họa cho miệng Mở: Nửa nhịp đầu Hiện, nửa nhịp sau Ẩn (ngược pha với miệng đóng) */
+@keyframes nhapNhauMo {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+/* Hoạt họa jumpRabbit cũ vẫn giữ nguyên */
+@keyframes jumpRabbit {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-40px) scale(1.1);
+  }
+}
+.jump-win {
+  animation: jumpRabbit 0.5s ease-in-out 3;
+}

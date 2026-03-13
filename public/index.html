@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Webgame Vui Học Chiến Binh</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  </head>
+  <body>
+    <div id="main-menu" class="game-panel">
+      <div class="logo-area">
+        <h1>🛡️ Chiến Binh Vui Học ⚔️</h1>
+        <p class="subtitle">Chinh phục tri thức - Vui học hàng ngày</p>
+      </div>
+
+      <div
+        id="player-profile"
+        class="profile-card hidden"
+        style="
+          display: flex;
+          flex-direction: column;
+          padding: 15px;
+          background: #ecf0f1;
+          border-radius: 15px;
+          border: 2px dashed #bdc3c7;
+          margin: 20px 0;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 5px;
+          "
+        >
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              cursor: pointer;
+              width: 35%;
+              border-right: 2px solid #bdc3c7;
+              padding-right: 10px;
+            "
+            onclick="
+              document.getElementById('avatar-modal').classList.remove('hidden')
+            "
+          >
+            <div
+              id="user-avatar-display"
+              style="
+                width: 70px;
+                height: 70px;
+                border-radius: 50%;
+                background: #fff;
+                border: 3px solid #3498db;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 40px;
+                overflow: hidden;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+              "
+            >
+              🦸‍♂️
+            </div>
+            <h3
+              id="user-name"
+              style="
+                margin: 8px 0 0;
+                font-size: 15px;
+                color: #2980b9;
+                text-align: center;
+                word-break: break-word;
+              "
+            >
+              Tên Bé
+            </h3>
+            <span
+              style="
+                font-size: 11px;
+                color: #e74c3c;
+                font-weight: bold;
+                margin-top: 5px;
+              "
+              >📷 Đổi ảnh</span
+            >
+          </div>
+
+          <div style="width: 65%; padding-left: 15px">
+            <div
+              id="user-stats"
+              style="
+                font-size: 13px;
+                color: #2c3e50;
+                line-height: 1.8;
+                max-height: 130px;
+                overflow-y: auto;
+                padding-right: 5px;
+              "
+            ></div>
+          </div>
+        </div>
+
+        <button id="btn-logout" class="btn-logout" style="margin-top: 10px">
+          🚪 Đăng xuất
+        </button>
+      </div>
+      <div id="login-area">
+        <button id="btn-login" class="btn-secondary">
+          🔑 Đăng nhập / Đăng ký
+        </button>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="setup-area">
+        <h3>🔻 Chọn thử thách mới</h3>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Lớp học</label>
+            <select id="sel-class"></select>
+          </div>
+          <div class="form-group">
+            <label>Môn học</label>
+            <select id="sel-subject">
+              <option value="toan">Toán Học</option>
+              <option value="tieng-viet">Tiếng Việt</option>
+              <option value="tieng-anh">Tiếng Anh</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Độ khó</label>
+            <select id="sel-diff">
+              <option value="easy">Dễ (Easy)</option>
+              <option value="medium">Vừa (Medium)</option>
+              <option value="hard">Khó (Hard)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tầng (Level)</label>
+            <select id="sel-level"></select>
+          </div>
+        </div>
+
+        <button id="btn-start-custom" class="btn-primary">
+          ⚔️ VÀO BÀI HỌC
+        </button>
+        <hr class="divider" style="margin-top: 20px" />
+        <div
+          class="setup-area"
+          style="
+            background: #fff3e0;
+            border: 2px solid #e67e22;
+            padding: 15px;
+            border-radius: 15px;
+          "
+        >
+          <h3 style="color: #d35400; margin-top: 0">🏆 Đấu Trường Tổng Hợp</h3>
+          <p style="font-size: 13px; color: #7f8c8d; margin-bottom: 10px">
+            Luật: 60s/câu. Trộn mọi môn học. Sai 1 lần là thua!<br />
+          </p>
+          <div class="grid-2" style="align-items: center">
+            <div class="form-group">
+              <label>Chọn Lớp</label>
+              <select id="sel-arena-class"></select>
+            </div>
+            <div>
+              <button
+                id="btn-start-arena"
+                class="btn-primary"
+                style="
+                  background-color: #8e44ad;
+                  box-shadow: 0 4px #732d91;
+                  font-size: 18px;
+                  padding: 15px;
+                "
+              >
+                🔥 THI TÀI NGAY
+              </button>
+            </div>
+          </div>
+          <div
+            id="arena-high-score"
+            style="
+              margin-top: 15px;
+              font-weight: bold;
+              color: #c0392b;
+              font-size: 15px;
+              text-align: center;
+            "
+          >
+            Kỷ lục cao nhất: 0 điểm
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      id="game-screen"
+      class="game-panel hidden"
+      style="
+        width: 95vw;
+        height: 85vh;
+        max-width: 1200px;
+        display: flex;
+        padding: 0;
+        overflow: hidden;
+        background-image: url(&quot;Image/nen1.1.jpeg&quot;);
+        background-size: cover;
+        background-position: center;
+        border: 8px solid #fff;
+        border-radius: 30px;
+      "
+    >
+      <div
+        style="
+          width: 35%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-end;
+          padding-bottom: 20px;
+        "
+      >
+        <h3
+          id="current-level-info"
+          style="
+            color: #fff;
+            text-shadow: 2px 2px 8px #000;
+            margin: 0 0 10px 0;
+            font-size: 24px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 5px 20px;
+            border-radius: 15px;
+            border: 2px solid #f1c40f;
+          "
+        >
+          📚 Lớp 1 - Mức DỄ
+        </h3>
+
+        <div
+          id="normal-score-container"
+          style="
+            width: 90%;
+            background: #ecf0f1;
+            border-radius: 20px;
+            border: 4px solid #f1c40f;
+            margin-bottom: 20px;
+            position: relative;
+            height: 45px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+          "
+        >
+          <div
+            id="progress-fill"
+            style="
+              height: 100%;
+              width: 0%;
+              background: linear-gradient(90deg, #ec0202, #a6c311);
+              transition: width 0.5s ease-out;
+            "
+          ></div>
+          <div
+            style="
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-size: 22px;
+              font-weight: bold;
+              color: #2c3e50;
+              text-shadow: 2px 2px 4px #fff;
+            "
+          >
+            ⭐ Điểm:
+            <span id="score-display" style="margin: 0 5px; color: #e74c3c"
+              >0</span
+            >
+            / 50
+          </div>
+        </div>
+
+        <div
+          id="arena-timer-container"
+          class="hidden"
+          style="
+            width: 90%;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 20px;
+            color: #fff;
+            font-weight: bold;
+            background: #8e44ad;
+            padding: 10px 20px;
+            border-radius: 15px;
+            border: 3px solid #732d91;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+          "
+        >
+          <div>
+            ⏳ T.Gian:
+            <span
+              id="arena-timer-display"
+              style="color: #f1c40f; font-size: 24px"
+              >60</span
+            >s
+          </div>
+          <div>
+            🏆 Điểm:
+            <span
+              id="arena-score-display"
+              style="color: #2ecc71; font-size: 24px"
+              >0</span
+            >
+          </div>
+        </div>
+
+        <div
+          onclick="gameManager.replayAudio()"
+          style="
+            cursor: pointer;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+          "
+          onmouseover="this.style.transform = 'scale(1.1)'"
+          onmouseout="this.style.transform = 'scale(1)'"
+        >
+          <div
+            style="font-size: 50px; text-shadow: 0 5px 10px rgba(0, 0, 0, 0.5)"
+          >
+            🔊
+          </div>
+          <div
+            style="
+              background: #3498db;
+              color: white;
+              padding: 5px 15px;
+              border-radius: 10px;
+              font-weight: bold;
+              font-size: 16px;
+              margin-top: 5px;
+              box-shadow: 0 4px #2980b9;
+            "
+          >
+            Đọc lại
+          </div>
+        </div>
+
+        <div
+          id="rabbit-anim-container"
+          class="rabbit-container floating-rabbit"
+        >
+          <img src="Image/tho_than.png" alt="Thân thỏ" class="rabbit-body" />
+          <img
+            src="Image/tho_mieng_dong.png"
+            id="rabbit-mouth-closed"
+            alt="Miệng đóng"
+            class="rabbit-mouth"
+          />
+          <img
+            src="Image/tho_mieng_mo.png"
+            id="rabbit-mouth-open"
+            alt="Miệng mở"
+            class="rabbit-mouth hidden-mouth"
+          />
+        </div>
+      </div>
+
+      <div
+        style="
+          width: 65%;
+          display: flex;
+          flex-direction: column;
+          padding: 30px;
+          background: rgba(0, 0, 0, 0.4);
+        "
+      >
+        <h1
+          id="math-question"
+          style="
+            font-size: 60px;
+            text-align: center;
+            color: #fff;
+            text-shadow: 3px 3px 10px #000;
+            margin-top: 0;
+          "
+        >
+          Bé hãy nghe thỏ đọc nhé!
+        </h1>
+
+        <div
+          id="math-answers"
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 30px;
+            flex-grow: 1;
+          "
+        ></div>
+
+        <button
+          class="btn-primary"
+          onclick="location.reload()"
+          style="margin-top: 20px; font-size: 24px; padding: 15px"
+        >
+          🏳️ Thoát ra Menu
+        </button>
+      </div>
+
+      <div
+        id="celebration-overlay"
+        class="hidden"
+        style="
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0, 0, 0, 0.85);
+          z-index: 9999;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+        "
+      >
+        <h1
+          style="color: #ffeb3b; font-size: 60px; text-shadow: 0 0 20px #ff9800"
+        >
+          🎉 QUÁ XUẤT SẮC! 🎉
+        </h1>
+        <video
+          id="dance-video"
+          src="Image/dance.mp4"
+          style="
+            width: 60%;
+            max-width: 600px;
+            border-radius: 20px;
+            border: 8px solid #fff;
+          "
+          muted
+        ></video>
+      </div>
+    </div>
+    <div id="auth-modal" class="modal-overlay hidden">
+      <div class="modal-content" style="width: 400px; text-align: left">
+        <h2 style="text-align: center; color: #e74c3c">Vào Lớp Học</h2>
+
+        <div class="form-group" style="margin-bottom: 15px">
+          <label>Chọn hồ sơ của bé:</label>
+          <select
+            id="auth-select"
+            style="
+              width: 100%;
+              padding: 10px;
+              border-radius: 8px;
+              border: 2px solid #bdc3c7;
+              font-size: 16px;
+              font-weight: bold;
+              color: #2980b9;
+            "
+          ></select>
+        </div>
+
+        <div id="new-user-fields" class="hidden">
+          <div class="form-group" style="margin-bottom: 15px">
+            <label>Tên bé mới:</label>
+            <input
+              type="text"
+              id="auth-name"
+              placeholder="Nhập tên..."
+              style="
+                width: 100%;
+                padding: 10px;
+                border-radius: 8px;
+                border: 2px solid #bdc3c7;
+                font-size: 16px;
+              "
+            />
+          </div>
+          <div class="form-group" style="margin-bottom: 15px">
+            <label>Tuổi:</label>
+            <input
+              type="number"
+              id="auth-age"
+              placeholder="Ví dụ: 6"
+              style="
+                width: 100%;
+                padding: 10px;
+                border-radius: 8px;
+                border: 2px solid #bdc3c7;
+                font-size: 16px;
+              "
+            />
+          </div>
+          <div class="form-group" style="margin-bottom: 15px">
+            <label>Giới tính:</label>
+            <select
+              id="auth-gender"
+              style="
+                width: 100%;
+                padding: 10px;
+                border-radius: 8px;
+                border: 2px solid #bdc3c7;
+                font-size: 16px;
+              "
+            >
+              <option value="nam">Bé Trai</option>
+              <option value="nu">Bé Gái</option>
+            </select>
+          </div>
+        </div>
+
+        <button
+          id="btn-auth-submit"
+          class="btn-primary"
+          style="font-size: 18px"
+        >
+          Tiếp tục (Enter)
+        </button>
+        <button id="btn-auth-close" class="btn-logout" style="margin-top: 10px">
+          Hủy bỏ (Esc)
+        </button>
+        <button
+          id="btn-auth-delete"
+          class="btn-logout hidden"
+          style="
+            background-color: #c0392b;
+            margin-top: 10px;
+            box-shadow: 0 4px #922b21;
+          "
+        >
+          🗑️ Xóa hồ sơ này
+        </button>
+      </div>
+    </div>
+    <div id="question-modal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <h3 id="q-text">1 + 1 bằng mấy?</h3>
+        <div id="q-answers" class="answer-grid"></div>
+      </div>
+    </div>
+    <div id="avatar-modal" class="modal-overlay hidden">
+      <div class="modal-content" style="width: 350px">
+        <h3 style="color: #e74c3c; margin-top: 0">Chọn ảnh đại diện</h3>
+
+        <p style="font-weight: bold; margin-bottom: 5px; text-align: left">
+          Kho mẫu siêu nhân:
+        </p>
+        <div
+          style="
+            font-size: 35px;
+            cursor: pointer;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+          "
+        >
+          <span onclick="menuManager.changeAvatar('🦸‍♂️')">🦸‍♂️</span>
+          <span onclick="menuManager.changeAvatar('🦸‍♀️')">🦸‍♀️</span>
+          <span onclick="menuManager.changeAvatar('🧙‍♂️')">🧙‍♂️</span>
+          <span onclick="menuManager.changeAvatar('🧚‍♀️')">🧚‍♀️</span>
+          <span onclick="menuManager.changeAvatar('🐶')">🐶</span>
+          <span onclick="menuManager.changeAvatar('🐰')">🐰</span>
+        </div>
+
+        <p style="font-weight: bold; margin-bottom: 5px; text-align: left">
+          Hoặc tải ảnh từ máy tính:
+        </p>
+        <input
+          type="file"
+          id="avatar-upload"
+          accept="image/*"
+          style="
+            width: 100%;
+            padding: 10px;
+            border: 2px dashed #bdc3c7;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            font-family: inherit;
+          "
+        />
+
+        <button
+          class="btn-secondary"
+          onclick="
+            document.getElementById('avatar-modal').classList.add('hidden')
+          "
+        >
+          Xong
+        </button>
+      </div>
+    </div>
+    <div id="level-up-modal" class="modal-overlay hidden">
+      <div
+        class="modal-content"
+        style="width: 450px; text-align: center; border: 8px solid #2ecc71"
+      >
+        <h1 style="color: #f39c12; margin-top: 0; font-size: 30px">
+          🎉 XUẤT SẮC! 🎉
+        </h1>
+
+        <p
+          id="level-up-message"
+          style="
+            font-size: 18px;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 20px;
+          "
+        >
+          Bé đã đạt tối đa 50/50 điểm!
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <button
+            class="btn-secondary"
+            onclick="gameManager.restartLevel('easy')"
+            style="background-color: #27ae60"
+          >
+            🔄 Chơi lại mức DỄ
+          </button>
+          <button
+            class="btn-secondary"
+            onclick="gameManager.restartLevel('medium')"
+            style="background-color: #f39c12"
+          >
+            🔄 Chơi lại mức VỪA
+          </button>
+          <button
+            class="btn-secondary"
+            onclick="gameManager.restartLevel('hard')"
+            style="background-color: #e74c3c"
+          >
+            🔄 Chơi lại mức KHÓ
+          </button>
+
+          <hr
+            style="width: 80%; border: 1px dashed #bdc3c7; margin: 5px auto"
+          />
+
+          <button
+            class="btn-primary"
+            onclick="gameManager.nextLevelOrClass()"
+            style="
+              font-size: 18px;
+              padding: 15px;
+              margin-top: 0;
+              box-shadow: 0 4px #2980b9;
+              background-color: #3498db;
+            "
+          >
+            ⏩ Chinh phục mốc tiếp theo
+          </button>
+          <button
+            class="btn-logout"
+            onclick="location.reload()"
+            style="margin-top: 10px; font-size: 16px"
+          >
+            🏠 Thoát ra Màn hình chính
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="game-over-modal" class="modal-overlay hidden">
+      <div
+        class="modal-content"
+        style="width: 450px; text-align: center; border: 8px solid #e74c3c"
+      >
+        <h1 style="color: #c0392b; margin-top: 0; font-size: 30px">
+          😢 ÔI TIẾC QUÁ! 😢
+        </h1>
+
+        <p
+          style="
+            font-size: 20px;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 20px;
+          "
+        >
+          Tiếc quá bạn sai rồi!
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <button
+            class="btn-secondary"
+            onclick="
+              document
+                .getElementById('game-over-modal')
+                .classList.add('hidden');
+              gameManager.restartLevel(gameManager.currentDiff);
+            "
+            style="background-color: #f39c12; font-size: 18px; padding: 15px"
+          >
+            🔄 Bắt đầu lại thử thách
+          </button>
+
+          <button
+            class="btn-logout"
+            onclick="location.reload()"
+            style="margin-top: 10px; font-size: 16px"
+          >
+            🏠 Thoát ra Menu
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="arena-win-modal" class="modal-overlay hidden">
+      <div
+        class="modal-content"
+        style="width: 500px; text-align: center; border: 8px solid #f1c40f"
+      >
+        <h1 style="color: #d35400; margin-top: 0; font-size: 35px">
+          👑 NHÀ VÔ ĐỊCH! 👑
+        </h1>
+        <p style="font-size: 20px; color: #2c3e50; font-weight: bold">
+          Tuyệt vời! Bạn đã hoàn thành xuất sắc mọi thử thách của Lớp này!
+        </p>
+        <button
+          class="btn-primary"
+          onclick="location.reload()"
+          style="margin-top: 20px; font-size: 18px"
+        >
+          🏆 Nhận Cúp & Thoát ra
+        </button>
+      </div>
+    </div>
+    <script src="js/data/themes.js"></script>
+    <script src="js/data/questions.js"></script>
+    <script src="js/GameManager.js"></script>
+    <script src="js/MenuManager.js"></script>
+  </body>
+</html>
