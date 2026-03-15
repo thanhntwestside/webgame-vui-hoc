@@ -5,6 +5,7 @@ class GameManager {
     this.currentDiff = null;
     this.currentQuestions = [];
     this.score = 0;
+    this.wrongCount = 0;
     this.currentSpeechText = "";
     this.bgmList = [
       "Image/nhac1.mp3",
